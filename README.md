@@ -1,6 +1,6 @@
 # postman-collection-spectral-linter
 
-> This code is part of a GitHub issue and is **not** actively maintained by Postman.
+> This code is part of a blog post and is **not** actively maintained by Postman.
 
 Command line utility (bash script) to validate the quality of a collection.
 
@@ -8,7 +8,7 @@ Command line utility (bash script) to validate the quality of a collection.
 
 This code demonstrates how to use the [Postman API](https://www.postman.com/postman/workspace/postman-public-workspace/collection/12959542-c8142d51-e97c-46b6-bd77-52bb66712c9a) and the [Spectral CLI](https://docs.stoplight.io/docs/spectral/9ffa04e052cc1-spectral-cli) to validate automatically the quality of a Postman collection.
 
-The script receives the Postman collection ID, and validates the next rules:
+The script receives the Postman collection ID, downloads the collection using the Postman API, and validates the next rules:
 
 ### Errors
 
