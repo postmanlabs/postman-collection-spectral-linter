@@ -1,0 +1,117 @@
+functions:
+  [
+    folderDescription,
+    request2XXor3XXResponse,
+    deleteResponse200or204,
+    pathVariablesRequire404Response,
+    requestNameShouldNotEndInCopy,
+    patchRequestShouldHaveBody,
+    requestWithAuthRequire401Response,
+  ]
+rules:
+  collection-description-is-mandatory:
+    description: Collection must have a description.
+    given: $.collection.info
+    severity: error
+    then:
+      field: description
+      function: truthy
+  request-description-is-mandatory:
+    description: Requests must have a description.
+    given: $..request
+    severity: error
+    then:
+      field: description
+      function: truthy
+  folder-description-is-mandatory:
+    description: Folders must have a description.
+    message: "{{error}}"
+    given: $
+    severity: error
+    then:
+      function: "folderDescription"
+  request-url-is-mandatory:
+    description: Requests must have a URL.
+    given: $..request
+    severity: error
+    then:
+      field: url
+      function: truthy
+  request-have-response-2XX-or-3XX:
+    description: Requests must have at least a response with code 2XX or 3XX.
+    given: $..item[*]
+    severity: error
+    then:
+      function: request2XXor3XXResponse
+  all-responses-have-status-code:
+    description: All the responses must have a status code.
+    given: $..response[*]
+    severity: error
+    then:
+      field: code
+      function: truthy
+  http-should-not-be-used:
+    description: HTTP should not be used
+    message: "HTTP should not be used: {{value}}"
+    given: $..url.raw
+    severity: warn
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "/^http:/i"
+  delete-responses-should-have-200-or-204-code:
+    description: DELETE responses should have a 200 or 204 status code
+    given: $..response[*]
+    severity: error
+    then:
+      function: deleteResponse200or204
+  path-variables-require-404-response:
+    description: Requests with path variables require a 404 response
+    given: $..item[*]
+    severity: error
+    then:
+      function: pathVariablesRequire404Response
+  examples-should-be-json-format:
+    description: Response bodies should be in JSON
+    message: "JSON should be used in examples: {{value}}"
+    given: $..response[*]._postman_previewlanguage
+    severity: warn
+    then:
+      function: pattern
+      functionOptions:
+        match: "/^json/i"
+  request-name-should-not-end-in-Copy:
+    description: Request names should not end in " Copy"
+    message: "{{error}}"
+    given: $..item[*]
+    severity: warn
+    then:
+      function: requestNameShouldNotEndInCopy
+  query-parameters-require-description:
+    description: All the request query parameters must have a description.
+    given: $..request.url.query[*]
+    severity: error
+    then:
+      field: description
+      function: truthy
+  path-parameters-require-description:
+    description: All the request path parameters must have a description.
+    given: $..request.url.variable[*]
+    severity: error
+    then:
+      field: description
+      function: truthy
+  patch-requests-require-body:
+    description: All the patch requests require a body.
+    message: "{{error}}"
+    given: $..request
+    severity: error
+    then:
+      function: patchRequestShouldHaveBody
+  authenticated-requests-require-401-response:
+    description: All the authenticated requests require a 401 response.
+    message: "{{error}}"
+    given: $..item[*]
+    severity: error
+    then:
+      function: requestWithAuthRequire401Response
