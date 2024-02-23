@@ -58,7 +58,7 @@ if [ ! $API_KEY ]
 fi
 
 # Perform a curl request against the Postman API. Save the request body in a file called collection.json
-curl -s -H "x-api-key: $POSTMAN_API_KEY" https://api.postman.com/collections/$COLLECTION_UID | jq . > _collection.json
+curl -s -H "x-api-key: $API_KEY" https://api.postman.com/collections/$COLLECTION_UID | jq . > _collection.json
 
 # Lint the collection using spectral. Save the result in a JSON file
 spectral lint _collection.json --ruleset $RULES_PATH -f json --quiet > _result.json
