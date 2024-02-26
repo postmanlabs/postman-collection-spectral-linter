@@ -35,7 +35,7 @@ The file [rules.yaml](rules.yaml) contains all the previous rules. Some of them 
 
 If any of the error rules doesn't pass for the collection being linted, the script returns an error status (1), which can be used in CI/CD processes to avoid further workflow steps.
 
-> NOTE: You need a valid (Postman API key)[https://learning.postman.com/docs/developer/postman-api/authentication/] to execute the command. You can save the API key in an environment variable called `POSTMAN_API_KEY`, and the script will read it from there.
+> NOTE: You need a valid [Postman API key](https://learning.postman.com/docs/developer/postman-api/authentication/) to execute the command. You can save the API key in an environment variable called `POSTMAN_API_KEY`, and the script will read it from there.
 
 ```shell
 export POSTMAN_API_KEY=PMAK_your_key
