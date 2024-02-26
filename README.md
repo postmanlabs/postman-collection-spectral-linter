@@ -17,8 +17,8 @@ The script gets the Postman Collection by its ID, downloads the collection using
 - Collection must have a description.
 - All requests must have a description.
 - Requests must have a URL.
-- All the requests have at least a 2XX or 3XX example.
-- All the responses must have a status code.
+- All requests have at least a 2XX or 3XX example.
+- All responses must have a status code.
 - DELETE responses must have a 200 or 204 status code.
 - Requests with path variables require a 404 response.
 - All request query parameters must have a description.
