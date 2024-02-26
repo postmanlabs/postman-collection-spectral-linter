@@ -30,7 +30,7 @@ The script gets the Postman Collection by its ID, downloads the collection using
 ### Warnings
 
 - HTTP should not be used.
-- Response bodies should be in JSON
+- Response bodies should be in JSON.
 - All folders should have a description.
 - Request names should not end in "Copy".
 
