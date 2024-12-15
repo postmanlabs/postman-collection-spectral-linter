@@ -1,0 +1,95 @@
+rules:
+  workspace-description-required:
+    description: "Every workspace must have a description."
+    message: "The workspace is missing a description."
+    given: "$.workspace"
+    severity: error
+    then:
+      field: description
+      function: truthy
+
+  workspace-description-length:
+    description: "The workspace description should be at least 50 characters long."
+    message: "The workspace description is too short. Please provide more details."
+    given: "$.workspace.description"
+    severity: error
+    then:
+      function: length
+      functionOptions:
+        min: 50
+
+  collection-name-required:
+    description: "Each collection must have a name."
+    message: "The collection is missing a name."
+    given: "$.workspace.collections[*]"
+    severity: error
+    then:
+      field: name
+      function: truthy
+
+  collection-item-count:
+    description: "Each collection should have at least 5 items (requests, folders, etc.)."
+    message: "The collection has less than 5 items."
+    given: "$.workspace.collections[*].items"
+    severity: error
+    then:
+      function: length
+      functionOptions:
+        min: 5
+
+  environment-name-convention:
+    description: "Environment names should follow the convention '<Project>-<Environment>' (e.g., 'Lifepack-Prod')."
+    message: "The environment name does not follow the convention '<Project>-<Environment>'."
+    given: "$.workspace.environments[*].name"
+    severity: warn
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Za-z0-9]+-[A-Za-z0-9]+$"
+
+  mock-deactivated-check:
+    description: "Mocks should be active, not deactivated."
+    message: "The mock server '{{mock.name}}' is deactivated."
+    given: "$.workspace.mocks[*]"
+    severity: error
+    then:
+      field: deactivated
+      function: falsy
+
+  monitor-deactivated-check:
+    description: "Monitors should be active, not deactivated."
+    message: "The monitor '{{monitor.name}}' is deactivated."
+    given: "$.workspace.monitors[*]"
+    severity: error
+    then:
+      field: deactivated
+      function: falsy
+
+  api-name-required:
+    description: "Each API should have a name."
+    message: "The API is missing a name."
+    given: "$.workspace.apis[*]"
+    severity: error
+    then:
+      field: name
+      function: truthy
+
+  api-version-convention:
+    description: "API versions should follow the convention 'vX.X.X' (e.g., 'v1.0.0')."
+    message: "The API version '{{api.version}}' does not follow the convention 'vX.X.X'."
+    given: "$.workspace.apis[*].version"
+    severity: error
+    then:
+      function: pattern
+      functionOptions:
+        match: "^v[0-9]+\\.[0-9]+\\.[0-9]+$"
+
+  workspace-updated-recently:
+    description: "Workspace should be updated within the last 6 months."
+    message: "The workspace has not been updated in the last 6 months."
+    given: "$.workspace.updatedAt"
+    severity: error
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(20[2-9][0-9]-(0[1-9]|1[0-2]))|20[0-9]{2}-(0[7-9]|1[0-2])-[0-9]{2}$"
