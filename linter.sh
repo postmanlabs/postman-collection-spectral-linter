@@ -60,6 +60,16 @@ fi
 # Perform a curl request against the Postman API. Save the request body in a file called collection.json
 curl -s -H "x-api-key: $API_KEY" https://api.postman.com/collections/$COLLECTION_UID | jq . > _collection.json
 
+# if the _collection.json file contains an entry "error", print an error message and exit with a non-zero status code
+jq '.error' _collection.json > _temp.json
+# if the first line of _temp.json contains "null" then the collection was fetched successfully
+if [ "$(head -n 1 _temp.json)" != "null" ]
+  then
+    echo "Error fetching collection. Please check the collection ID, API key, or the permissions."
+    cat _temp.json
+    exit 1
+fi
+
 # Lint the collection using spectral. Save the result in a JSON file
 spectral lint _collection.json --ruleset $RULES_PATH -f json --quiet > _result.json
 
